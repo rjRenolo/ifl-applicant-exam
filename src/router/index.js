@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Exam from '../views/Exam.vue'
+import Dashboard from '../views/Dashboard.vue'
+import IflLogIn from '../views/IflLogIn.vue'
+import AccessExam from '../views/AccessExam.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +13,26 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/exam',
+    name: 'Exam',
+    component: Exam
+  },
+  {
+    path: '/access',
+    name: 'AccessExam',
+    component: AccessExam
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard
+  },
+  {
+    path: '/ifl',
+    name: 'IflLogIn',
+    component: IflLogIn
   },
   {
     path: '/about',
