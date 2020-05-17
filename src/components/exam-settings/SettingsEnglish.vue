@@ -35,7 +35,7 @@
     <v-row>
       <v-list>
         <v-list-group
-          v-for="question in questions.questions"
+          v-for="(question, i) in questions.questions"
           :key="question.title"
           v-model="question.active"
           :prepend-icon="question.action"
@@ -43,7 +43,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title v-text="question.question"></v-list-item-title>
+              <v-list-item-title>{{i+1}}. {{question.question}}</v-list-item-title>
             </v-list-item-content>
           </template>
 
