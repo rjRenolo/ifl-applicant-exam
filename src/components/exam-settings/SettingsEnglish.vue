@@ -22,7 +22,6 @@
         :disabled="!valid"
         color="success"
         class="mr-4"
-        v-on:click="submitQuestion()"
       >
         Add Question
       </v-btn>
