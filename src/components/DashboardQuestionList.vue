@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <h1>nope</h1>
+      Question List
   </v-container>
 </template>
 
 <script>
 export default {
-    name:'Dashboard'
+    name:'DashboardQuestionList'
 }
 </script>
 

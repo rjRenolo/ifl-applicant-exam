@@ -5,6 +5,7 @@ import Exam from '../views/Exam.vue'
 import Dashboard from '../views/Dashboard.vue'
 import IflLogIn from '../views/IflLogIn.vue'
 import AccessExam from '../views/AccessExam.vue'
+import ExamSettings from '../components/ExamSettings'
 
 Vue.use(VueRouter)
 
@@ -25,14 +26,19 @@ Vue.use(VueRouter)
     component: AccessExam
   },
   {
+    path: '/ifl',
+    name: 'IflLogIn',
+    component: IflLogIn
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
   },
   {
-    path: '/ifl',
-    name: 'IflLogIn',
-    component: IflLogIn
+    path: '/exam-settings',
+    name: 'ExamSettings',
+    component: ExamSettings
   },
   {
     path: '/about',

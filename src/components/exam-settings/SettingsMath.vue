@@ -1,12 +1,12 @@
 <template>
-  <v-container>
-    <h1>nope</h1>
+  <v-container> 
+      Math Settings
   </v-container>
 </template>
 
 <script>
 export default {
-    name:'Dashboard'
+    name:'SettingsMath'
 }
 </script>
 

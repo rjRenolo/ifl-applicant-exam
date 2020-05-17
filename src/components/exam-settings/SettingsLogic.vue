@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <h1>nope</h1>
+      Logic Settings
   </v-container>
 </template>
 
 <script>
 export default {
-    name:'Dashboard'
+    name:'SettingsLogic'
 }
 </script>
 

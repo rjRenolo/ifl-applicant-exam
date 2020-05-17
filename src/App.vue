@@ -1,11 +1,45 @@
 <template>
   <v-app>
+    <v-navigation-drawer v-model="drawer" app class="primary">
+      <v-list dense class="text-center">
+        <v-list-item-content>
+          <v-list-item-title class="title white--text">HR Dashboard</v-list-item-title>
+          <v-list-item-subtitle class="white--text">Hello, asdasd</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list>
+      <v-list style="background:#1976d2 !important" shaped>
+        <!-- <v-subheader class="white--text">HR Dashboard</v-subheader> -->
+        <v-list-item-group >
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            class="white--text"
+            router
+            :to="item.route"
+          >
+            <v-list-item-icon>
+              <v-icon class="white--text">{{item.icon}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="white--text" v-text="item.text"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar
       app
-      color="secondary"
+      color="primary"
       dark
     >
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <div class="d-flex align-center">
+        
+        
+      </div>
+     
+
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -14,22 +48,15 @@
           transition="scale-transition"
           width="40"
         />
-
-        <!-- <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        /> -->
         <h1 class="font-weight-light" style="font-size:1.4em">iFormatLogic I.T. Solutions</h1>
-      </div>
 
       <v-spacer></v-spacer>
 
+       
       
     </v-app-bar>
+
+    
 
     <v-content>
       <router-view></router-view>
@@ -42,7 +69,13 @@
 export default {
   name: 'App',
   data: () => ({
-    //
+    drawer: false,
+    isAuthenticated: true,
+    items: [
+        { text: 'Dashboard', icon: 'mdi-view-dashboard-outline', route: '/dashboard' },
+        { text: 'Exam Settings', icon: 'mdi-file-document-edit-outline', route: '/exam-settings'},
+        // { text: 'Conversions', icon: 'mdi-flag' },
+      ],
   }),
 };
 </script>
