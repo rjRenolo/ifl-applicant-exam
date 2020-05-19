@@ -4,12 +4,12 @@
       <v-list dense class="text-center">
         <v-list-item-content>
           <v-list-item-title class="title white--text">HR Dashboard</v-list-item-title>
-          <v-list-item-subtitle class="white--text">Hi 👋 </v-list-item-subtitle>
+          <v-list-item-subtitle class="white--text">Hi 👋</v-list-item-subtitle>
         </v-list-item-content>
       </v-list>
       <v-list style="background:#1976d2 !important" shaped>
         <!-- <v-subheader class="white--text">HR Dashboard</v-subheader> -->
-        <v-list-item-group >
+        <v-list-item-group>
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
@@ -36,35 +36,26 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-    <v-app-bar-nav-icon v-if="isAuth" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <div class="d-flex align-center">
-        
-        
-      </div>
-     
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-nav-icon v-if="isAuth" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <div class="d-flex align-center"></div>
 
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="./assets/logo.png"
-          transition="scale-transition"
-          width="40"
-        />
-        <h1 class="font-weight-light" style="font-size:1.4em">iFormatLogic I.T. Solutions</h1>
+      <v-img
+        alt="Vuetify Logo"
+        class="shrink mr-2"
+        contain
+        src="./assets/logo.png"
+        transition="scale-transition"
+        width="40"
+      />
+      <h1 class="font-weight-light" style="font-size:1.4em">iFormatLogic I.T. Solutions</h1>
 
       <v-spacer></v-spacer>
 
-       
-      
+      <span
+        v-if="this.$store.getters.getApplicantInfo"
+      >Exam Timer: {{this.$store.getters.getExamTimer}}</span>
     </v-app-bar>
-
-    
 
     <v-content>
       <router-view></router-view>
@@ -73,26 +64,34 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
   data: () => ({
     drawer: false,
     isAuthenticated: true,
     items: [
-        { text: 'Dashboard', icon: 'mdi-view-dashboard-outline', route: '/dashboard' },
-        { text: 'Exam Settings', icon: 'mdi-file-document-edit-outline', route: '/exam-settings'},
-        // { text: 'Conversions', icon: 'mdi-flag' },
-      ],
+      {
+        text: "Dashboard",
+        icon: "mdi-view-dashboard-outline",
+        route: "/dashboard"
+      },
+      {
+        text: "Exam Settings",
+        icon: "mdi-file-document-edit-outline",
+        route: "/exam-settings"
+      }
+      // { text: 'Conversions', icon: 'mdi-flag' },
+      // https://medium.com/js-dojo/how-to-create-an-animated-countdown-timer-with-vue-89738903823f
+    ]
   }),
-  methods : {
+  methods: {
     logMeOut() {
-      this.$store.commit('SET_LOGGED_IN', false)
-      this.$router.push({name:'Home'})
+      this.$store.commit("SET_LOGGED_IN", false);
+      this.$router.push({ name: "Home" });
     }
   },
   computed: {
-    // get the getters 
+    // get the getters
     isAuth() {
       return this.$store.getters.isAuth;
     }

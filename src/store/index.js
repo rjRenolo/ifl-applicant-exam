@@ -1,25 +1,44 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [createPersistedState({
+  plugins: [
+    createPersistedState({
       storage: window.sessionStorage
-  })],
+    })
+  ],
   state: {
     user: {
       loggedIn: false,
       data: null
-    }
-  },
-  getters:{
-    user(state){
-      return state.user
     },
-    isAuth(state){
-      return state.user.loggedIn
+    applicant: null,
+    applicantId: null
+  },
+  getters: {
+    user(state) {
+      return state.user;
+    },
+    isAuth(state) {
+      return state.user.loggedIn;
+    },
+    getApplicantInfo(state) {
+      return state.applicant;
+    },
+    getApplicantId(state) {
+      return state.applicantId;
+    },
+    getExamTimer(state) {
+      return state.applicant.examTimer;
+    },
+    getAnsweredEnglish(state) {
+      return state.applicant.answeredEnglish;
+    },
+    getResultEnglish(state) {
+      return state.applicant.resultEnglish;
     }
   },
   mutations: {
@@ -29,9 +48,18 @@ export default new Vuex.Store({
     LOG_OUT(state, value) {
       state.user.loggedIn = value;
     },
-    // SET_USER(state, data) {
-    //   state.user.data = data;
-    // }
+    SET_APPLICANT_INFO(state, value) {
+      state.applicant = value;
+    },
+    SET_APPLICANT_ID(state, value) {
+      state.applicantId = value;
+    },
+    PUSH_ANSWERED_QUESTION(state, value) {
+      state.applicant.answeredEnglish.push(value);
+    },
+    CORRECT_ANSWER_INCREMENT(state) {
+      state.applicant.resultEnglish++;
+    }
   },
   actions: {
     // fetchUser() {
@@ -46,6 +74,5 @@ export default new Vuex.Store({
     //   // }
     // }
   },
-  modules: {
-  }
-})
+  modules: {}
+});
