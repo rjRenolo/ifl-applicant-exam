@@ -27,10 +27,22 @@
                 required
             ></v-text-field>
              </v-col>
+            <v-col cols="12">
+            <v-text-field v-model="Cpassword" 
+                :rules="[() => !!Cpassword || 'Password is required.',
+                  () => Cpassword === form.password || 'Password didn\'t match'
+                ]"
+                :type="showPass ? 'text' : 'password'"
+                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPass = !showPass"
+                label="Passowrd"
+                required
+            ></v-text-field>
+             </v-col>
             </v-row>
           </v-form>
           <v-btn color="primary" :disabled="!valid" @click="submit()">
-            Log In
+            Register
             <v-progress-circular v-if="loading"
               indeterminate
               color="green"
@@ -44,52 +56,48 @@
   </v-container>
 </template>
 
-<script>
 
+<script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
-    name:'IflLogIn',
-    data() {
-      return {
-        valid:false,
-        showPass:false,
-        loading:false,
-          form: {
-          email: null,
-          password: null
-        },
-        emailRules :[
-          v => !!v || 'E-mail is required',
-          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        ],
-        error: null
-      }
-    },
-    methods: {
-      submit() {
-        this.loading = true
+    name:'IflRegister',
+  data() {
+    return {
+      valid:false,
+      loading:false,
+      Cpassword:"",
+      showPass:false,
+      form: {
+        name: "",
+        email: "",
+        password: ""
+      },
+      error: null
+    };
+  },
+  methods: {
+    submit() {
+      this.loading = true
         firebase
-          .auth()
-          .signInWithEmailAndPassword(this.form.email, this.form.password)
-          .then(() => {
-            this.$store.commit('SET_LOGGED_IN', true)
-            this.$router.replace({ name: "Dashboard" });
-          })
-          .catch(err => {
-            this.error = err.message;
-          });
-      }
-    },
-    created(){
-      if(this.$store.getters.isAuth) {
-        this.$router.replace({name : "Dashboard"})
-      }
+        .auth()
+        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .then(data => {
+          data.user
+            .updateProfile({
+              displayName: this.form.name
+            })
+            .then(() => {
+              // store.dispatch("fetchUser", user);
+              this.$store.commit('SET_LOGGED_IN', true)
+              this.$router.push({name: 'Dashboard'})
+            });
+        })
+        .catch(err => {
+          this.error = err.message;
+        });
     }
-}
+  }
+};
 </script>
-
-<style>
-
-</style>

@@ -6,6 +6,9 @@ import Dashboard from '../views/Dashboard.vue'
 import IflLogIn from '../views/IflLogIn.vue'
 import AccessExam from '../views/AccessExam.vue'
 import ExamSettings from '../components/ExamSettings'
+import IflRegister from '../views/IflRegister';
+
+// import firebase from 'firebase'
 
 Vue.use(VueRouter)
 
@@ -26,6 +29,11 @@ Vue.use(VueRouter)
     component: AccessExam
   },
   {
+    path: '/ifl-register',
+    name: 'IflRegister',
+    component: IflRegister
+  },
+  {
     path: '/ifl',
     name: 'IflLogIn',
     component: IflLogIn
@@ -33,12 +41,18 @@ Vue.use(VueRouter)
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta : {
+      requiresAuth: true
+    }
   },
   {
     path: '/exam-settings',
     name: 'ExamSettings',
-    component: ExamSettings
+    component: ExamSettings,
+    meta : {
+      requiresAuth: true
+    }
   },
   {
     path: '/about',
@@ -50,10 +64,28 @@ Vue.use(VueRouter)
   }
 ]
 
+
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+import store from '../store'
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!store.state.user.loggedIn) {
+      next({
+        name: "IflLogIn",
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

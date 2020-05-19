@@ -7,7 +7,7 @@ import vuetify from './plugins/vuetify';
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
 import { firestorePlugin } from 'vuefire'
-
+// import {auth} from './db';
 Vue.config.productionTip = false
 
 // firebase.initializeApp({
@@ -22,6 +22,11 @@ Vue.config.productionTip = false
 
 // export const db = firebase.firestore();
 Vue.use(firestorePlugin);
+
+// auth().onAuthStateChanged(user => {
+//   store.dispatch("fetchUser", user);
+// });
+
 new Vue({
   router,
   store,

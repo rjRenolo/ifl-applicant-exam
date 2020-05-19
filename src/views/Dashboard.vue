@@ -67,6 +67,8 @@
         hide-details
       ></v-text-field>
     </v-card-title>
+
+
     <v-data-table
       :headers="headers"
       :items="applicants"
@@ -77,22 +79,12 @@
       class="elevation-1"
       item-key="name"
     >
-      <!-- <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Expandable Table</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-switch v-model="singleExpand" label="Single expand" class="mt-2"></v-switch>
-        </v-toolbar>
-      </template> -->
-      <template v-slot:item.examTimer="{item}">
-        <span>{{secondsToTime(item.examTimer)}}</span>
-      </template>
-      <template v-slot:item.dateAdded="{ item }">
-      <!-- <v-chip :color="getColor()" dark>asd{{ item.dateAdded }}</v-chip> -->
-      <!-- <span>{{ item.dateAdded.toDate() }}</span> -->
-      <span>{{ ((item.dateAdded.toDate().getMonth() > 8) ? (item.dateAdded.toDate().getMonth() + 1) : ('0' + (item.dateAdded.toDate().getMonth() + 1))) + '/' + ((item.dateAdded.toDate().getDate() > 9) ? item.dateAdded.toDate().getDate() : ('0' + item.dateAdded.toDate().getDate())) + '/' + item.dateAdded.toDate().getFullYear() }}</span>
+
+    <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">More info about {{ item.fullName }}</td>
     </template>
-      <template v-slot:expanded-item="{ headers, item }">
+    
+    <template v-slot:expanded-item="{ headers, item }">
         <td :colspan="headers.length">
             <span class="headline">More Info</span>
             <hr>
@@ -115,6 +107,15 @@
           </v-container>
         </td>
       </template>
+      <template v-slot:item.examTimer="{item}">
+        <span>{{secondsToTime(item.examTimer)}}</span>
+      </template>
+      <template v-slot:item.dateAdded="{ item }">
+      <v-chip :color="getColor()" dark>asd{{ item.dateAdded }}</v-chip>
+      <span>{{ item.dateAdded.toDate() }}</span>
+      <span>{{ ((item.dateAdded.toDate().getMonth() > 8) ? (item.dateAdded.toDate().getMonth() + 1) : ('0' + (item.dateAdded.toDate().getMonth() + 1))) + '/' + ((item.dateAdded.toDate().getDate() > 9) ? item.dateAdded.toDate().getDate() : ('0' + item.dateAdded.toDate().getDate())) + '/' + item.dateAdded.toDate().getFullYear() }}</span>
+      </template>
+      
 
     </v-data-table>
   </v-card>
@@ -156,7 +157,7 @@ export default {
         examTimer : 360000,
 
         search: '',
-        singleExpand: true,
+        singleExpand: false,
         expanded: [],
         headers: [
           {
