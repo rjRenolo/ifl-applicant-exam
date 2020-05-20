@@ -16,7 +16,8 @@ export default new Vuex.Store({
       data: null
     },
     applicant: null,
-    applicantId: null
+    applicantId: null,
+    reloadFlag:true,
   },
   getters: {
     user(state) {
@@ -31,17 +32,33 @@ export default new Vuex.Store({
     getApplicantId(state) {
       return state.applicantId;
     },
+    getReloadFlag(state){
+      return state.reloadFlag
+    },
     getExamTimer(state) {
-      return state.applicant.examTimer;
+      if(state.applicant) {
+        return state.applicant.examTimer;
+      }else{
+        // console.log('nulled')
+      }
     },
     getAnsweredEnglish(state) {
       return state.applicant.answeredEnglish;
     },
     getResultEnglish(state) {
       return state.applicant.resultEnglish;
+    },
+    getAnsweredMath(state) {
+      return state.applicant.answeredMath;
+    },
+    getResultMath(state) {
+      return state.applicant.resultMath;
     }
   },
   mutations: {
+    SET_RELOAD_FLAG(state, value){
+      state.reloadFlag = value
+    },
     SET_LOGGED_IN(state, value) {
       state.user.loggedIn = value;
     },
@@ -59,7 +76,13 @@ export default new Vuex.Store({
     },
     CORRECT_ANSWER_INCREMENT(state) {
       state.applicant.resultEnglish++;
-    }
+    },
+    PUSH_ANSWERED_QUESTION_MATH(state, value) {
+      state.applicant.answeredMath.push(value);
+    },
+    CORRECT_ANSWER_INCREMENT_MATH(state) {
+      state.applicant.resultMath++;
+    },
   },
   actions: {
     // fetchUser() {

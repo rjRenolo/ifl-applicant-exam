@@ -54,7 +54,10 @@
 
       <span
         v-if="this.$store.getters.getApplicantInfo"
-      >Exam Timer: {{this.$store.getters.getExamTimer}}</span>
+      >Exam Timer: {{formattedTimeLeft}}</span>
+      <!-- <span
+        v-if="this.$store.getters.getApplicantInfo"
+      >Exam Timer: {{this.$store.getters.getExamTimer}}</span> -->
     </v-app-bar>
 
     <v-content>
@@ -64,6 +67,7 @@
 </template>
 
 <script>
+// const TIME_LIMIT = 5;
 export default {
   name: "App",
   data: () => ({
@@ -79,22 +83,76 @@ export default {
         text: "Exam Settings",
         icon: "mdi-file-document-edit-outline",
         route: "/exam-settings"
-      }
+      },
       // { text: 'Conversions', icon: 'mdi-flag' },
       // https://medium.com/js-dojo/how-to-create-an-animated-countdown-timer-with-vue-89738903823f
-    ]
+    ],
+    timePassed: 0,
+      timerInterval: null,
+      TIME_LIMIT: 5,
   }),
   methods: {
     logMeOut() {
       this.$store.commit("SET_LOGGED_IN", false);
       this.$router.push({ name: "Home" });
+    },
+    onTimesUp() {
+      clearInterval(this.timerInterval);
+      console.log("time's up, mark all as done")
+    },
+
+    startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
   },
   computed: {
     // get the getters
     isAuth() {
       return this.$store.getters.isAuth;
+    },
+    formattedTimeLeft() {
+      const timeLeft = this.timeLeft;
+      const minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+
+      return `${minutes}:${seconds}`;
+    },
+    timeLeft() {
+      return this.TIME_LIMIT - this.timePassed;
+    },
+    timeFraction() {
+      const rawTimeFraction = this.timeLeft / this.TIME_LIMIT;
+      return rawTimeFraction - (1 / this.TIME_LIMIT) * (1 - rawTimeFraction);
     }
+  },
+  watch: {
+    timeLeft(newValue) {
+      if (newValue === 0) {
+        this.onTimesUp();
+      }
+    },
+    draw(newValue) {
+      if(this.$store.getters.isAuth && newValue){
+        this.drawer = true;
+        return this.drawer;
+      }else{
+        this.drawer = false;
+        return this.drawer;
+      }
+    },
+  },
+  created(){
+    
+  },
+  mounted(){
+    
+      this.TIME_LIMIT = (this.$store.getters.getExamTimer / 1000).toFixed(0);
+      this.startTimer();
+    
   }
 };
 </script>

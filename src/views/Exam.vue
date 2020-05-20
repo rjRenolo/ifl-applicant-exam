@@ -85,6 +85,11 @@ export default {
     if (!this.$store.getters.getApplicantInfo) {
       this.$router.replace({ name: "Home" });
     }
+
+    if(this.$store.getters.getReloadFlag){
+      this.$store.commit("SET_RELOAD_FLAG", false)
+      location.reload();
+    }
     // if (!this.$store.getters.getApplicantInfo) {
     //   this.$router.replace({ name: "Home" });
     // }
