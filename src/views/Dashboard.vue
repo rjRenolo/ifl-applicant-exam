@@ -364,6 +364,7 @@ export default {
           this.loading = false;
           console.log(error);
         });
+        this.$refs.form.reset();
     }
   }
 };
